@@ -4,61 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use App\Models\Movie;
+use App\Models\People;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $movies = Movie::with('country')->latest()->paginate(10);
-        return view('home', compact('movies'));
-    }
+        $country_id = $request->country_id;
+        $people_id = $request->people_id;
+        $search = $request->title;
 
-    public function edit(Movie $movie)
-    {
+        $movies = Movie::search($country_id, $people_id, $search)->paginate(10);
         $countries = Country::all();
-        return view('admin.movies.edit', compact('movie', 'countries'));
+        $people = People::all();
+
+        return view('welcome', compact('movies', 'countries', 'people'));
     }
 
-    public function update(Movie $movie, Request $request)
+    public function showMovie($id)
     {
-        $data = $request->except(['_token', '_method']);
-        if ($movie->update($data)) {
-            return redirect('/movies')->with('status', 'Updated Successfully');
-        }
-
-    }
-
-    public function create()
-    {
-        $countries = Country::all();
-
-        return view('admin.movies.create', compact('countries'));
-    }
-
-    public function store(Request $request)
-    {
-        $data = $request->except(['_token', '_method']);
-        // dd($data);
-        $movie = Movie::create($data);
-        if ($movie) {
-            return redirect('/movies')->with('status', 'Saved Successfully');
-        }
-
+        $movie = Movie::find($id);
+        return view('movie');
     }
 }

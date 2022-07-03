@@ -69,6 +69,21 @@
                             </div>
 
                             <div class="mb-3 col-md-12">
+                                <label class="form-label">Associated People</label>
+                                <select class="form-select multiple-select-field" name="people[]"
+                                    data-placeholder="Choose associated people" id="small-select2-options-multiple-field"
+                                    multiple>
+                                    @foreach ($people as $person)
+                                        <option value="{{ $person->id }}"
+                                            {{ in_array($person->id, $associated_people) ? 'selected' : '' }}>
+                                            {{ $person->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+                            <div class="mb-3 col-md-12">
                                 <label for="formFile" class="form-label">Image</label>
                                 <input class="form-control" type="file" name="image" id="formFile">
                                 <img src="{{ asset('storage') . '/' . $movie->image }}" width="70" height="70">

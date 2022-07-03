@@ -17,4 +17,9 @@ class People extends Model
     {
         return $this->belongsTo(Country::class);
     }
+
+    public function movies()
+    {
+        return $this->belongsToMany(Movie::class, 'movielist_primary.movie_people');
+    }
 }

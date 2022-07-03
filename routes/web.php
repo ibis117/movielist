@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MovieController;
+use App\Http\Controllers\PeopleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,12 +17,16 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/movie/{id}', [HomeController::class, 'showMovie'])->name('movie.show');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('/movies', HomeController::class);
+Route::prefix('admin')->middleware(['auth'])->group(function () {
+    Route::resource('/movies', MovieController::class);
+    Route::resource('/people', PeopleController::class)->parameters(['person' => 'id']);
+    Route::resource('/country', CountryController::class);
+
+});

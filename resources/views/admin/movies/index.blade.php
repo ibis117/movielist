@@ -41,11 +41,18 @@
                                             <td>{{ $movie->runtime }}</td>
                                             <td>{{ $movie->release_date }}</td>
                                             <td>
-                                                <div>
+                                                <div class="d-flex col">
                                                     <a href="{{ route('movies.edit', ['movie' => $movie->id]) }}"
-                                                        class="btn btn-primary btn-sm">Edit</a>
-                                                    <a href="" class="btn btn-success btn-sm">View</a>
-                                                    <a href="" class="btn btn-danger btn-sm">Delete</a>
+                                                        class="btn btn-primary btn-sm mx-1">Edit</a>
+                                                    <a href="{{ route('movies.show', ['movie' => $movie->id]) }}"
+                                                        class="btn btn-success btn-sm mx-1">View</a>
+                                                    <form action="{{ route('movies.destroy', [$movie->id]) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button class="btn btn-danger btn-sm mx-1"
+                                                            type="submit">Delete</button>
+                                                    </form>
                                                 </div>
                                             </td>
                                         </tr>
