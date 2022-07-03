@@ -20,12 +20,18 @@ class HomeController extends Controller
         $countries = Country::all();
         $people = People::all();
 
-        return view('welcome', compact('movies', 'countries', 'people'));
+        return view('welcome', compact('movies', 'countries', 'people', 'country_id', 'people_id', 'search'));
     }
 
     public function showMovie($id)
     {
-        $movie = Movie::find($id);
-        return view('movie');
+        $movie = Movie::with('people')->find($id);
+        return view('movie', compact('movie'));
+    }
+
+    public function showPerson($id)
+    {
+        $person = People::with(['movies', 'country'])->find($id);
+        return view('person', compact('person'));
     }
 }

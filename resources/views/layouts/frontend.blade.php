@@ -32,12 +32,21 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Register</a>
-                    </li>
+
+                    @auth
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/admin">Dashboard</a>
+                        </li>
+                    @endauth
+
+                    @guest
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Register</a>
+                        </li>
+                    @endguest
                 </ul>
             </div>
         </div>

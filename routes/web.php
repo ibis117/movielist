@@ -19,12 +19,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/movie/{id}', [HomeController::class, 'showMovie'])->name('movie.show');
+Route::get('/person/{id}', [HomeController::class, 'showPerson'])->name('person.show');
 
 Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::prefix('admin')->middleware(['auth'])->group(function () {
+    Route::get('/', [MovieController::class, 'index']);
     Route::resource('/movies', MovieController::class);
     Route::resource('/people', PeopleController::class)->parameters(['person' => 'id']);
     Route::resource('/country', CountryController::class);

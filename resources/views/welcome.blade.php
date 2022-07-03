@@ -13,7 +13,8 @@
                         <select class="form-select" name="country_id">
                             <option value="">Select Country</option>
                             @foreach ($countries as $country)
-                                <option value="{{ $country->id }}">{{ $country->english_name }}</option>
+                                <option value="{{ $country->id }}" {{ $country->id == $country_id ? 'selected' : '' }}>
+                                    {{ $country->english_name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -23,7 +24,8 @@
                         <select class="form-select" name="people_id">
                             <option value="">Select People</option>
                             @foreach ($people as $person)
-                                <option value="{{ $person->id }}">{{ $person->name }}</option>
+                                <option value="{{ $person->id }}" {{ $person->id == $people_id ? 'selected' : '' }}>
+                                    {{ $person->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -50,5 +52,5 @@
             </p>
         </div>
     @endforeach
-    {{ $movies->links() }}
+    {{ $movies->withQueryString()->links() }}
 @endsection

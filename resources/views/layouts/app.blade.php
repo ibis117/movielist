@@ -47,13 +47,16 @@
                     <ul class="navbar-nav me-auto">
                         @auth
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Movies</a>
+                                <a class="nav-link active" aria-current="page"
+                                    href="{{ route('movies.index') }}">Movies</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">People</a>
+                                <a class="nav-link active" aria-current="page"
+                                    href="{{ route('people.index') }}">People</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Countries</a>
+                                <a class="nav-link active" aria-current="page"
+                                    href="{{ route('country.index') }}">Countries</a>
                             </li>
                         @endauth
                     </ul>

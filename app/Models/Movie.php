@@ -13,6 +13,8 @@ class Movie extends Model
 
     protected $connection = 'mysql';
 
+    protected $table = 'movielist_primary.movies';
+
     protected $fillable = ['country_id', 'title', 'overview', 'original_language', 'tagline', 'runtime', 'release_date', 'image'];
 
     public function scopeSearch($query, $country_id, $people_id, $search)
@@ -20,11 +22,11 @@ class Movie extends Model
         return $query->when($country_id, function ($q) use ($country_id) {
             return $q->where('country_id', $country_id);
         })
-        // ->when($people_id, function ($q) use ($people_id) {
-        //     $q->whereHas('people', function ($q) use ($people_id) {
-        //         $q->where('id', $people_id);
-        //     });
-        // })
+            ->when($people_id, function ($q) use ($people_id) {
+                return $q->whereHas('people', function ($q) use ($people_id) {
+                    return $q->where('people_id', $people_id);
+                });
+            })
             ->where('title', 'LIKE', '%' . $search . '%');
     }
 
@@ -35,12 +37,7 @@ class Movie extends Model
 
     public function people()
     {
-        return $this->belongsToMany(People::class, 'movielist_primary.movie_people');
-    }
-
-    public function cast()
-    {
-        return $this->belongsToMany(People::class, 'movielist_primary.movie_people');
+        return $this->belongsToMany(People::class, 'movielist_secondary.movie_people');
     }
 
     public function getPeopleIdsAttribute()

@@ -11,6 +11,8 @@ class People extends Model
 
     protected $connection = 'mysql2';
 
+    protected $table = 'movielist_secondary.people';
+
     protected $fillable = ['name', 'bio', 'birthday', 'deathday', 'place_of_birth', 'gender', 'country_id'];
 
     public function country()
@@ -20,6 +22,6 @@ class People extends Model
 
     public function movies()
     {
-        return $this->belongsToMany(Movie::class, 'movielist_primary.movie_people');
+        return $this->belongsToMany(Movie::class, 'movielist_secondary.movie_people');
     }
 }
