@@ -13,7 +13,7 @@ class Movie extends Model
 
     protected $connection = 'mysql';
 
-    protected $table = 'movielist_primary.movies';
+    protected $table = "movielist_primary.movies";
 
     protected $fillable = ['country_id', 'title', 'overview', 'original_language', 'tagline', 'runtime', 'release_date', 'image'];
 

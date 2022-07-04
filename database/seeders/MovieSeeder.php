@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Country;
 use App\Models\Movie;
+use App\Models\People;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -28,6 +29,7 @@ class MovieSeeder extends Seeder
             ])->json();
 
             $country = Country::inRandomOrder()->first();
+            $people = People::inRandomOrder()->limit(5)->pluck('id');
 
             $base_url_for_image = 'https://image.tmdb.org/t/p';
             $size = 'w500';
@@ -36,7 +38,7 @@ class MovieSeeder extends Seeder
             $path = "images/movies/{$image}";
 
             if (Storage::disk('public')->put($path, file_get_contents($image_url))) {
-                Movie::create([
+                $movie = Movie::create([
                     'country_id' => $country->id,
                     'title' => $response['title'],
                     'overview' => $response['overview'],
@@ -46,6 +48,7 @@ class MovieSeeder extends Seeder
                     'image' => $path,
                     'release_date' => $response['release_date'],
                 ]);
+                $movie->people()->sync($people);
 
             }
         }
